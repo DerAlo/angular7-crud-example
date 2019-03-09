@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import * as ccxt from 'ccxt';
-import { resolve } from 'url';
 
 @Component({
     selector: 'app-timeline',
@@ -11,8 +10,7 @@ import { resolve } from 'url';
 })
 export class TimeLineComponent implements OnInit {
 
-    gdaxData: String;
-    gdaxData2: String;
+    gdaxData: ccxt.Market[];
 
     constructor(private router: Router) { }
 
@@ -25,18 +23,19 @@ export class TimeLineComponent implements OnInit {
     }
 
     async fetchData() {
-        this.gdaxData = 'ajjjkgg';
+
         const gdax = new ccxt.gdax();
 
-        await gdax.loadMarkets().then(function (fulfilled) {
-            console.log(fulfilled);
-            this.gdaxData2 = fulfilled;
-        })
-            .catch(function (error) {
-                console.log(error.message);
-            });
+        gdax.fetchMarkets().then(
+            res => { // Success
+                this.gdaxData = res;
+                console.log(res);
+            },
+            msg => { // Error
+                console.log(msg);
+            }
+        );
 
-        this.gdaxData = this.gdaxData2;
     }
 
 

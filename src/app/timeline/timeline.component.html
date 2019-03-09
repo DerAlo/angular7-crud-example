@@ -19,8 +19,12 @@
         </div>
     </div>
 
-    {{gdaxData}}
+   
 
      <button class="btn btn-danger" style="width:300px" (click)="fetchData()">fetch GDAX Data</button>
+
+      <li *ngFor="let d of gdaxData">
+        {{ d.id }}
+      </li>
 
 </div>
