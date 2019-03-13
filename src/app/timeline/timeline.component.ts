@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import {ExchangeService} from '../core/exchange.service';
 
 import * as ccxt from 'ccxt';
 
@@ -12,7 +13,7 @@ export class TimeLineComponent implements OnInit {
 
     gdaxData: ccxt.Market[];
 
-    constructor(private router: Router) { }
+    constructor(private router: Router, private exchangeService: ExchangeService) { }
 
     ngOnInit() {
         if (!window.localStorage.getItem('token')) {
@@ -22,10 +23,8 @@ export class TimeLineComponent implements OnInit {
 
     }
 
-    async fetchData() {
-
+    async fetchDataFrontend() {
         const gdax = new ccxt.gdax();
-
         gdax.fetchMarkets().then(
             res => { // Success
                 this.gdaxData = res;
@@ -35,7 +34,20 @@ export class TimeLineComponent implements OnInit {
                 console.log(msg);
             }
         );
+    }
 
+    fetchDataBackend(){
+      
+            this.exchangeService.getInfo().subscribe(data => {
+            
+              if (data.status === 200) {
+                //window.localStorage.setItem('token', data.result.token);
+                alert(data.result);
+              } else {               
+                alert(data.message);
+              }
+            });
+         
     }
 
 

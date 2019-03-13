@@ -8,6 +8,7 @@ import { EditUserComponent } from './edit-user/edit-user.component';
 import { ListUserComponent } from './list-user/list-user.component';
 import { TimeLineComponent } from './timeline/timeline.component';
 import {ApiService} from './core/api.service';
+import {ExchangeService} from './core/exchange.service';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ReactiveFormsModule} from '@angular/forms';
 import {routing} from './app.routing';
@@ -34,8 +35,8 @@ import { MatCardModule, MatToolbarModule } from '@angular/material';
     MatToolbarModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [ApiService, {provide: HTTP_INTERCEPTORS,
-    useClass: TokenInterceptor,
+  providers: [ApiService, ExchangeService, {provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,   
     multi : true}],
   bootstrap: [AppComponent]
 })
